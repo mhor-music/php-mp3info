@@ -53,8 +53,7 @@ class PhpMp3Info
      */
     public function extractId3Tags($filePath)
     {
-        $this->filePath = $filePath;
-
+        $this->setFilePath($filePath);
         $fs = new Filesystem();
         if (!$fs->exists($this->filePath)) {
             throw new \Exception('This file is not a valid file');
@@ -92,16 +91,6 @@ class PhpMp3Info
     }
 
     /**
-     * @param string $command
-     * @return PhpMp3Info
-     */
-    protected function setCommand($command)
-    {
-        $this->command = $command;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getFilePath()
@@ -125,16 +114,6 @@ class PhpMp3Info
     protected function getArguments()
     {
         return $this->arguments;
-    }
-
-    /**
-     * @param string $arguments
-     * @return PhpMp3Info
-     */
-    protected function setArguments($arguments)
-    {
-        $this->arguments = $arguments;
-        return $this;
     }
 
     /**
