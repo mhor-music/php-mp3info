@@ -12,6 +12,11 @@ On linux:
 $ sudo apt-get install mp3info
 ```
 
+On Mac:
+```bash
+$ brew install mp3info
+```
+
 To use this class install it through [Composer](https://getcomposer.org/), add:
 ```json
 {
