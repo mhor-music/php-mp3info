@@ -3,6 +3,7 @@
 namespace Mhor\PhpMp3Info;
 
 use Symfony\Component\Filesystem\Filesystem;
+use Mhor\PhpMp3Info\ProcessCommandInterface;
 use Symfony\Component\Process\Process;
 
 /**
@@ -38,14 +39,18 @@ class PhpMp3Info
     protected $filePath;
 
     /**
-     * @var string
+     * @var ProcessCommandInterface
      */
-    protected $command = 'mp3info ';
+    protected $processCommand;
 
-    /**
-     * @var string
-     */
-    protected $arguments = ' -pp3  -p" %a|%t|%n|%l"';
+    public function __construct($processCommand = null) {
+
+        if ($processCommand === null) {
+            $this->processCommand = new ProcessCommand();
+        } else {
+            $this->processCommand = $processCommand;
+        }
+    }
 
     /**
      * @param $filePath
@@ -63,39 +68,11 @@ class PhpMp3Info
 
     /**
      *
-     * @throws \RuntimeException
      * @return void
      */
     protected function execute()
     {
-        $process = new Process(
-            $this->getCommand() .
-            $this->getFilePath() .
-            $this->getArguments()
-        );
-
-        $process->run();
-        if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process->getErrorOutput());
-        }
-
-        $this->parse($process->getOutput());
-    }
-
-    /**
-     * @return string
-     */
-    protected function getCommand()
-    {
-        return $this->command;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFilePath()
-    {
-        return $this->filePath;
+        $this->parse($this->processCommand->executeCommand($this->filePath));
     }
 
     /**
@@ -106,14 +83,6 @@ class PhpMp3Info
     {
         $this->filePath = $filePath;
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getArguments()
-    {
-        return $this->arguments;
     }
 
     /**
