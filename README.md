@@ -33,8 +33,8 @@ To use this class install it through [Composer](https://getcomposer.org/), add:
 //...
 use Mhor\PhpMp3Info\PhpMp3Info;
 //...
-$mp3Tags = new PhpMp3Info('music.mp3');
-echo $mp3Tags->extractId3Tags();
+$mp3Tags = new PhpMp3Info();
+echo $mp3Tags->extractId3Tags('music.mp3');
 echo $mp3Tags->getAlbum();
 echo $mp3Tags->getTitle();
 echo $mp3Tags->getArtist();
