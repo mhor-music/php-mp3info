@@ -7,6 +7,7 @@ PHP class to read ID3 tags with mp3info command
 ## Installation
 
 You should install [mp3info](http://manpages.ubuntu.com/manpages/gutsy/man1/mp3info.1.html):
+
 On linux:
 ```bash
 $ sudo apt-get install mp3info
