@@ -3,10 +3,14 @@
 namespace Mhor\PhpMp3Info;
 
 use Symfony\Component\Process\Process;
-use Mhor\PhpMp3Info\ProcessCommandInterface;
 
-class ProcessCommand {
-
+/**
+ * Class ProcessCommand
+ *
+ * @package Mhor\PhpMp3Info
+ */
+class ProcessCommand
+{
     /**
      * @var Process
      */
@@ -20,7 +24,7 @@ class ProcessCommand {
     /**
      * @var string
      */
-    protected $arguments = ' -pp3 -p"%a|%t|%n|%l"';
+    protected $arguments = ' -p"%a|%t|%n|%l|%m:%s|%r"';
 
     /**
      * @param string $filePath

@@ -24,15 +24,17 @@ class PhpMp3InfoTest extends PHPUnit_Framework_TestCase {
 
         $mock->expects($this->any())
             ->method('executeCommand')
-            ->will($this->returnValue('ZOE LEELA|Pop Up|1|Digital Guilt'));
+            ->will($this->returnValue('ZOE LEELA|Pop Up|1|Digital Guilt|1:44|Variable'));
 
         $this->filePath =  __DIR__ . '/../testFiles/ZOE.LEELA_-_Pop_Up.mp3';
-        $this->mp3tags = new PhpMp3Info($mock);
+        $this->mp3tags = new PhpMp3Info();
         $this->mp3tags->extractId3Tags($this->filePath);
         $this->assertEquals('Digital Guilt', $this->mp3tags->getAlbum());
         $this->assertEquals('1', $this->mp3tags->getTrack(), '1');
         $this->assertEquals('Pop Up', $this->mp3tags->getTitle());
         $this->assertEquals('ZOE LEELA', $this->mp3tags->getArtist());
+        $this->assertEquals('1:44', $this->mp3tags->getLength());
+        $this->assertEquals('Variable', $this->mp3tags->getBitrate());
     }
 
     /**
@@ -45,7 +47,6 @@ class PhpMp3InfoTest extends PHPUnit_Framework_TestCase {
         $mock->expects($this->any())
             ->method('executeCommand')
             ->will($this->throwException(new \RuntimeException()));
-
 
         $this->filePath =  __DIR__ . '/../testFiles/ZOE.LEELA_-_Pop_Up.mp3';
         $this->mp3tags = new PhpMp3Info($mock);

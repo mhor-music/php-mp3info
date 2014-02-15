@@ -3,9 +3,7 @@
 namespace Mhor\PhpMp3Info;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Mhor\PhpMp3Info\ProcessCommandInterface;
-use Symfony\Component\Process\Process;
-
+use Mhor\PhpMp3Info\ProcessCommand;
 /**
  * Execute mp3info command line tool and parse the output.
  *
@@ -34,16 +32,29 @@ class PhpMp3Info
     protected $album;
 
     /**
+     * Integer when it's CBR
+     * Equals 'Variable' when it's VBR
+     * @var string|int
+     */
+    protected $bitrate;
+
+    /**
+     * @var string
+     */
+    protected $length;
+
+    /**
      * @var string
      */
     protected $filePath;
 
     /**
-     * @var ProcessCommandInterface
+     * @var ProcessCommand
      */
     protected $processCommand;
 
-    public function __construct($processCommand = null) {
+    public function __construct($processCommand = null)
+    {
 
         if ($processCommand === null) {
             $this->processCommand = new ProcessCommand();
@@ -61,7 +72,7 @@ class PhpMp3Info
         $this->setFilePath($filePath);
         $fs = new Filesystem();
         if (!$fs->exists($this->filePath)) {
-            throw new \Exception('This file is not a valid file');
+            throw new \Exception('File doesn\'t exist');
         }
         $this->execute();
     }
@@ -96,7 +107,10 @@ class PhpMp3Info
         $this->setArtist($result[0])
             ->setTitle($result[1])
             ->setTrack($result[2])
-            ->setAlbum($result[3]);
+            ->setAlbum($result[3])
+            ->setLength($result[4])
+            ->setBitrate($result[5])
+        ;
     }
 
     /**
@@ -169,5 +183,41 @@ class PhpMp3Info
     {
         $this->track = $track;
         return $this;
+    }
+
+    /**
+     * @param int|string $bitrate
+     * @return PhpMp3Info
+     */
+    public function setBitrate($bitrate)
+    {
+        $this->bitrate = $bitrate;
+        return $this;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getBitrate()
+    {
+        return $this->bitrate;
+    }
+
+    /**
+     * @param string $length
+     * @return PhpMp3Info
+     */
+    public function setLength($length)
+    {
+        $this->length = $length;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLength()
+    {
+        return $this->length;
     }
 }
