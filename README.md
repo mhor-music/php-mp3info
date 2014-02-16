@@ -39,6 +39,8 @@ echo $mp3Tags->getAlbum();
 echo $mp3Tags->getTitle();
 echo $mp3Tags->getArtist();
 echo $mp3Tags->getTrack();
+echo $mp3Tags->getBitrate();
+echo $mp3Tags->getLength();
 //...
 ```
 
