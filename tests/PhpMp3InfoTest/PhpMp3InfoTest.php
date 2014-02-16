@@ -27,7 +27,7 @@ class PhpMp3InfoTest extends PHPUnit_Framework_TestCase {
             ->will($this->returnValue('ZOE LEELA|Pop Up|1|Digital Guilt|1:44|Variable'));
 
         $this->filePath =  __DIR__ . '/../testFiles/ZOE.LEELA_-_Pop_Up.mp3';
-        $this->mp3tags = new PhpMp3Info();
+        $this->mp3tags = new PhpMp3Info($mock);
         $this->mp3tags->extractId3Tags($this->filePath);
         $this->assertEquals('Digital Guilt', $this->mp3tags->getAlbum());
         $this->assertEquals('1', $this->mp3tags->getTrack(), '1');
