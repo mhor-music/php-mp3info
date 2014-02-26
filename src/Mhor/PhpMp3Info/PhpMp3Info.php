@@ -3,7 +3,8 @@
 namespace Mhor\PhpMp3Info;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Mhor\PhpMp3Info\ProcessCommand;
+use Symfony\Component\Process\ProcessBuilder;
+
 /**
  * Execute mp3info command line tool and parse the output.
  *
@@ -14,57 +15,44 @@ class PhpMp3Info
     /**
      * @var string
      */
-    protected $artist;
-
-    /**
-     * @var int
-     */
-    protected $track;
-
-    /**
-     * @var string
-     */
-    protected $title;
-
-    /**
-     * @var string
-     */
-    protected $album;
-
-    /**
-     * Integer when it's CBR
-     * Equals 'Variable' when it's VBR
-     * @var string|int
-     */
-    protected $bitrate;
-
-    /**
-     * @var string
-     */
-    protected $length;
-
-    /**
-     * @var string
-     */
     protected $filePath;
 
     /**
-     * @var ProcessCommand
+     * @var ProcessBuilder
      */
-    protected $processCommand;
+    protected $processBuilder;
 
-    public function __construct($processCommand = null)
+    /**
+     * @var string
+     */
+    protected $command = 'mp3info';
+
+    /**
+     * @var string
+     */
+    protected $arguments = '-p%a|%t|%n|%l|%m:%s|%r';
+
+    /**
+     * @param ProcessBuilder $processBuilder
+     */
+    public function __construct($processBuilder = null)
     {
-
-        if ($processCommand === null) {
-            $this->processCommand = new ProcessCommand();
+        if ($processBuilder === null) {
+            $this->processBuilder = ProcessBuilder::create()
+                ->setPrefix(
+                    array(
+                        $this->command,
+                        $this->arguments
+                    )
+            );
         } else {
-            $this->processCommand = $processCommand;
+            $this->processBuilder = $processBuilder;
         }
     }
 
     /**
      * @param $filePath
+     * @return Mp3Tags
      * @throws \Exception
      */
     public function extractId3Tags($filePath)
@@ -74,16 +62,7 @@ class PhpMp3Info
         if (!$fs->exists($this->filePath)) {
             throw new \Exception('File doesn\'t exist');
         }
-        $this->execute();
-    }
-
-    /**
-     *
-     * @return void
-     */
-    protected function execute()
-    {
-        $this->parse($this->processCommand->executeCommand($this->filePath));
+        return $this->parse($this->executeCommand());
     }
 
     /**
@@ -99,125 +78,38 @@ class PhpMp3Info
     /**
      *
      * @param string $output
-     * @return void
+     * @return Mp3Tags
      */
     protected function parse($output)
     {
         $result = explode('|', trim($output));
-        $this->setArtist($result[0])
+
+        $mp3Tags = new Mp3Tags();
+        $mp3Tags->setArtist($result[0])
             ->setTitle($result[1])
             ->setTrack($result[2])
             ->setAlbum($result[3])
             ->setLength($result[4])
             ->setBitrate($result[5])
-        ;
+            ->setFilePath($this->filePath);
+
+        return $mp3Tags;
     }
 
     /**
      * @return string
+     * @throws \RuntimeException
      */
-    public function getAlbum()
+    protected function executeCommand()
     {
-        return $this->album;
-    }
+        $this->processBuilder->add($this->filePath);
+        $process = $this->processBuilder->getProcess();
+        $process->run();
 
-    /**
-     * @param string $album
-     * @return PhpMp3Info
-     */
-    protected function setAlbum($album)
-    {
-        $this->album = $album;
-        return $this;
-    }
+        if (!$process->isSuccessful()) {
 
-    /**
-     * @return string
-     */
-    public function getArtist()
-    {
-        return $this->artist;
-    }
-
-    /**
-     * @param string $artist
-     * @return PhpMp3Info
-     */
-    protected function setArtist($artist)
-    {
-        $this->artist = $artist;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     * @return PhpMp3Info
-     */
-    protected function setTitle($title)
-    {
-        $this->title = $title;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTrack()
-    {
-        return $this->track;
-    }
-
-    /**
-     * @param int $track
-     * @return PhpMp3Info
-     */
-    protected function setTrack($track)
-    {
-        $this->track = $track;
-        return $this;
-    }
-
-    /**
-     * @param int|string $bitrate
-     * @return PhpMp3Info
-     */
-    public function setBitrate($bitrate)
-    {
-        $this->bitrate = $bitrate;
-        return $this;
-    }
-
-    /**
-     * @return int|string
-     */
-    public function getBitrate()
-    {
-        return $this->bitrate;
-    }
-
-    /**
-     * @param string $length
-     * @return PhpMp3Info
-     */
-    public function setLength($length)
-    {
-        $this->length = $length;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLength()
-    {
-        return $this->length;
+            throw new \RuntimeException($process->getErrorOutput());
+        }
+        return $process->getOutput();
     }
 }
