@@ -51,7 +51,7 @@ class PhpMp3Info
     }
 
     /**
-     * @param $filePath
+     * @param string $filePath
      * @return Mp3Tags
      * @throws \Exception
      */
@@ -102,6 +102,7 @@ class PhpMp3Info
      */
     protected function executeCommand()
     {
+        $this->processBuilder->setArguments(array());
         $this->processBuilder->add($this->filePath);
         $process = $this->processBuilder->getProcess();
         $process->run();
