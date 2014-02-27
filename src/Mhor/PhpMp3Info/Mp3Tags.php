@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: maxime
- * Date: 2/25/14
- * Time: 11:41 PM
- */
 
 namespace Mhor\PhpMp3Info;
 

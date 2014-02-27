@@ -22,7 +22,7 @@ To use this class install it through [Composer](https://getcomposer.org/), add:
 ```json
 {
     "require" : {
-        "mhor/php-mp3info": "0.1"
+        "mhor/php-mp3info": "0.3"
     }
 }
 ```
