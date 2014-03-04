@@ -17,5 +17,10 @@
     },
     "autoload": {
         "psr-0": { "" : "src/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "v0.4.x-dev"
+        }
     }
 }
