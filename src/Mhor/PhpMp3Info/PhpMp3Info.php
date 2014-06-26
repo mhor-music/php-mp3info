@@ -58,8 +58,8 @@ class PhpMp3Info
     public function extractId3Tags($filePath)
     {
         $this->setFilePath($filePath);
-        $fs = new Filesystem();
-        if (!$fs->exists($this->filePath)) {
+        $fileSystem = new Filesystem();
+        if (!$fileSystem->exists($this->filePath)) {
             throw new \Exception('File doesn\'t exist');
         }
         return $this->parse($this->executeCommand());
