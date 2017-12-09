@@ -9,11 +9,11 @@
         }
     ],
     "require": {
-        "symfony/process": "~2.3",
-        "symfony/filesystem": "~2.3"
+        "symfony/process": "~2.3 | ^3 | ^4",
+        "symfony/filesystem": "~2.3 | ^3 | ^4"
     },
     "require-dev": {
-        "phpunit/phpunit": "@stable"
+        "phpunit/phpunit": "^5"
     },
     "autoload": {
         "psr-0": { "" : "src/" }
