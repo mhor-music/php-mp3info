@@ -2,7 +2,8 @@
 
 namespace Mhor\PhpMp3Info;
 
-class Mp3Tags {
+class Mp3Tags
+{
     /**
      * @var string
      */
@@ -40,75 +41,51 @@ class Mp3Tags {
      */
     protected $filePath;
 
-    /**
-     * @return string
-     */
-    public function getAlbum()
+    public function getAlbum(): string
     {
         return $this->album;
     }
 
-    /**
-     * @param string $album
-     * @return Mp3Tags
-     */
-    public function setAlbum($album)
+    public function setAlbum(string $album): self
     {
         $this->album = $album;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getArtist()
+    public function getArtist(): string
     {
         return $this->artist;
     }
 
-    /**
-     * @param string $artist
-     * @return Mp3Tags
-     */
-    public function setArtist($artist)
+    public function setArtist(string $artist): self
     {
         $this->artist = $artist;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     * @return Mp3Tags
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
+
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getTrack()
+    public function getTrack(): int
     {
         return $this->track;
     }
 
-    /**
-     * @param int $track
-     * @return Mp3Tags
-     */
-    public function setTrack($track)
+    public function setTrack(int $track): self
     {
         $this->track = $track;
+
         return $this;
     }
 
@@ -116,9 +93,10 @@ class Mp3Tags {
      * @param int|string $bitrate
      * @return Mp3Tags
      */
-    public  function setBitrate($bitrate)
+    public function setBitrate($bitrate): self
     {
         $this->bitrate = $bitrate;
+
         return $this;
     }
 
@@ -130,38 +108,26 @@ class Mp3Tags {
         return $this->bitrate;
     }
 
-    /**
-     * @param string $length
-     * @return Mp3Tags
-     */
-    public function setLength($length)
+    public function setLength(string $length): self
     {
         $this->length = $length;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getLength()
+    public function getLength(): string
     {
         return $this->length;
     }
 
-    /**
-     * @param string $filePath
-     * @return Mp3Tags
-     */
-    public function setFilePath($filePath)
+    public function setFilePath(string $filePath): self
     {
         $this->filePath = $filePath;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getFilePath()
+    public function getFilePath(): string
     {
         return $this->filePath;
     }

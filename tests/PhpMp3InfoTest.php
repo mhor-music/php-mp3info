@@ -1,17 +1,16 @@
 <?php
 
-namespace Mhor\PhpMp3Info;
+namespace Mhor\PhpMp3Info\Test;
 
 use Mhor\PhpMp3Info\PhpMp3Info;
-use PHPUnit_Framework_TestCase;
-use \RuntimeException;
+use PHPUnit\Framework\TestCase;
 
-class PhpMp3InfoTest extends PHPUnit_Framework_TestCase {
+class PhpMp3InfoTest extends TestCase {
 
     /**
      * @var string filePath
      */
-    private $filePath;
+    private $filePath = __DIR__ . '/testFiles/ZOE.LEELA_-_Pop_Up.mp3';
 
     /**
      * @var PhpMp3Info
@@ -20,7 +19,6 @@ class PhpMp3InfoTest extends PHPUnit_Framework_TestCase {
 
     public function testTags()
     {
-        $this->filePath =  __DIR__ . '/../../testFiles/ZOE.LEELA_-_Pop_Up.mp3';
         $this->mp3info = new PhpMp3Info();
         $mp3tags = $this->mp3info->extractId3Tags($this->filePath);
 
@@ -38,9 +36,7 @@ class PhpMp3InfoTest extends PHPUnit_Framework_TestCase {
      */
     public function testFailCommand()
     {
-        $process = $this->prophesize('Process');
-        $this->filePath =  __DIR__ . '/../../testFiles/ZOE.LEELA_-_Pop_Up.mp3';
-        $mp3tags = new PhpMp3Info($process->reveal());
+        $mp3tags = new PhpMp3Info('this-command-doesnt-exist', 'no arguments');
         $mp3tags->extractId3Tags($this->filePath);
     }
 
@@ -49,9 +45,8 @@ class PhpMp3InfoTest extends PHPUnit_Framework_TestCase {
      */
     public function testFailFile()
     {
-        $this->filePath =  'thisFileDoesNotExist.mp3';
         $this->mp3info = new PhpMp3Info();
-        $this->mp3info->extractId3Tags($this->filePath);
+        $this->mp3info->extractId3Tags('thisFileDoesNotExist.mp3');
     }
 
 }
