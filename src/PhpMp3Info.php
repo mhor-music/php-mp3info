@@ -49,7 +49,7 @@ class PhpMp3Info
         $mp3Tags = new Mp3Tags();
         $mp3Tags->setArtist($result[0])
                 ->setTitle($result[1])
-                ->setTrack($result[2])
+                ->setTrack((int)$result[2])
                 ->setAlbum($result[3])
                 ->setLength($result[4])
                 ->setBitrate($result[5])
