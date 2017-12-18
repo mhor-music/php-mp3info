@@ -9,18 +9,24 @@
         }
     ],
     "require": {
-        "symfony/process": "~2.3",
-        "symfony/filesystem": "~2.3"
+        "php": ">=7.1",
+        "symfony/process": "^3 | ^4",
+        "symfony/filesystem": "^3 | ^4"
     },
     "require-dev": {
-        "phpunit/phpunit": "@stable"
+        "phpunit/phpunit": "^6"
     },
     "autoload": {
-        "psr-0": { "" : "src/" }
+        "psr-4": { "Mhor\\PhpMp3Info\\" : "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            " Mhor\\PhpMp3Info\\Test\\": "tests/"
+        }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "v0.4.x-dev"
+            "dev-master": "v1.0.x-dev"
         }
     }
 }
