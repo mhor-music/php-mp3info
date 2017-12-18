@@ -58,7 +58,7 @@ class PhpMp3Info
         return $mp3Tags;
     }
 
-    protected function executeCommand()
+    protected function executeCommand(): string
     {
         $process = new Process($this->command.' '.$this->arguments. ' '.$this->filePath);
         $process->run();

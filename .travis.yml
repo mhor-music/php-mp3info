@@ -10,6 +10,13 @@ matrix:
     - php: 7.2
   fast_finish: true
 
-before_script:
-  - sudo apt-get install mp3info 
-  - composer install --dev --prefer-source
+env:
+  global:
+    - SYMFONY_DEPRECATIONS_HELPER=strict
+    - deps=no
+
+install:
+  - sudo apt-get install mp3info
+  - composer self-update -q
+  - if [ "$deps" = "no" ]; then composer --prefer-stable --prefer-dist -n update; fi;
+  - if [ "$deps" = "low" ]; then composer --prefer-lowest -n --prefer-stable --prefer-dist update; fi;
